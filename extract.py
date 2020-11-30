@@ -8,6 +8,7 @@ import time
 import threading
 from typing import List
 import sys
+import datetime
 
 
 def run_worker(i: int, repos: List[Path]) -> None:
@@ -59,7 +60,8 @@ def run_worker(i: int, repos: List[Path]) -> None:
                 fp.write(f'idx={idx} (out of {len(repos)})\n')
                 fp.write(f'repo_path={repo_path}\n')
                 fp.write(f'commit_count={commit_count}\n')
-                fp.write(f'used_time={used_time} seconds\n\n')
+                fp.write(f'used_time={used_time} seconds\n')
+                fp.write(f'timestamp={datetime.datetime.now()}\n\n')
 
             idx += 1
 
