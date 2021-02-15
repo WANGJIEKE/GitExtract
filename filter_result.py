@@ -3,6 +3,7 @@
 from pathlib import Path
 import pandas as pd
 from pandas import errors as pd_err
+import sys
 
 
 CLEANED_RESULT_ROOT_DIR = Path('./cleaned_result')
@@ -20,6 +21,12 @@ if __name__ == '__main__':
                 df = pd.read_csv(csv_file_path)
             except pd_err.EmptyDataError:
                 continue
+            except pd_err.ParserError as e:
+                print(f'problematic csv {csv_file_path} with error {e}', file=sys.stderr)
+                with (CLEANED_RESULT_ROOT_DIR / 'err_log.txt').open('a') as f:
+                    print(f'problematic csv {csv_file_path} with error {e}', file=f)
+                continue
+
             df.fillna('', inplace=True)
 
             if len(df) == 0:
